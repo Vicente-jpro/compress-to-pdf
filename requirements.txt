@@ -1,0 +1,2 @@
+# Pure-Python PDF handling (fallback when Ghostscript is not installed)
+pypdf>=4.0.0
