@@ -38,6 +38,13 @@ def _ghostscript_compress(input_path: Path, output_path: Path, quality: str) -> 
     if gs is None:
         return False
 
+    # Validate that input_path is an existing .pdf file before invoking the
+    # external process (prevents unexpected non-PDF paths reaching here).
+    if not input_path.exists() or input_path.suffix.lower() != ".pdf":
+        return False
+
+    # Build the command as a list – never with shell=True – to eliminate any
+    # shell-injection risk from path components.
     cmd: list[str] = [
         gs,
         "-sDEVICE=pdfwrite",
@@ -64,6 +71,7 @@ def _pypdf_compress(input_path: Path, output_path: Path) -> bool:
     """
     try:
         from pypdf import PdfReader, PdfWriter  # type: ignore[import]
+        from pypdf.errors import PdfReadError  # type: ignore[import]
 
         reader = PdfReader(str(input_path))
         writer = PdfWriter()
@@ -81,7 +89,8 @@ def _pypdf_compress(input_path: Path, output_path: Path) -> bool:
         return output_path.exists()
     except ImportError:
         return False
-    except Exception:  # noqa: BLE001
+    except (PdfReadError, OSError, ValueError):
+        # Covers corrupted PDF, I/O errors, and invalid page content
         return False
 
 

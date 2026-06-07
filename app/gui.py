@@ -203,7 +203,9 @@ class CompressToPdfApp:
 
         try:
             result = compress_pdf(self._selected_file, progress_callback=update)
-        except Exception as exc:  # noqa: BLE001
+        except (OSError, ValueError, RuntimeError) as exc:
+            # Catch common I/O and runtime errors from the compression layer.
+            # Any other unhandled exception will propagate normally.
             self._root.after(0, lambda e=exc: self._handle_error(str(e)))
             return
 
