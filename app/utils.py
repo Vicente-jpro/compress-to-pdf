@@ -11,12 +11,14 @@ BASE_DIR: Path = Path(__file__).parent.parent
 # Working directories
 INPUT_DIR: Path = BASE_DIR / "input-file"
 OUTPUT_DIR: Path = BASE_DIR / "output-file"
+BACKGROUND_OUTPUT_DIR: Path = BASE_DIR / "output-image"
 
 
 def ensure_directories() -> None:
-    """Create input-file and output-file directories if they don't exist."""
+    """Create input and output directories if they don't exist."""
     INPUT_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    BACKGROUND_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def format_size(size_bytes: int) -> str:
