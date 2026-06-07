@@ -1,0 +1,21 @@
+# User-placed files – do not commit
+input-file/
+output-file/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# OS metadata
+.DS_Store
+Thumbs.db
